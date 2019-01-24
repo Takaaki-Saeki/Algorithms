@@ -1,79 +1,69 @@
-#include <cstdio>
-#include <iostream>
-#include <algorithm>
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<utility>
 
 using namespace std;
 
-struct Elem
-{
-    int num;
-    int idx;
-};
+typedef pair<int, int> P;
 
-bool cmp(const Elem &a, const Elem &b)
+bool pairCompare(const P& firstElof, const P& secondElof)
 {
-    return a.num > b.num;
+        return firstElof.second > secondElof.second;
 }
 
+vector<P> ep;
+vector<P> op;
 
 int main()
 {
+    vector<int> ef(100005, 0);
+    vector<int> of(100005, 0);
     int n;
-    scanf("%d", &n);
-    int a[100000];
-    Elem odd[100000];
-    Elem even[100000];
+    vector<int> e(n);
+    vector<int> o(n);
+    cin >> n;
 
-    for(int i=0; i<n; i++){
-        int tmp;
-        scanf("%d", &tmp);
-        a[i] = tmp;
+    for(int i=0; i<n/2; i++){
+        int e1;
+        int o1;
+        cin >> e1;
+        cin >> o1;
+        e[i] = e1;
+        o[i] = o1;
     }
 
-    for (int i=0; i<=100000; i++){
-        odd[i].num = 0;
-        odd[i].idx = i;
-        even[i].num = 0;
-        even[i].idx = i;
+    for(int i=0; i<n/2; i++){
+        ef[e[i]]++;
+        of[o[i]]++;
     }
 
-    for (int i=0; i<=(n-2)/2; i++){
-        int even_tmp = a[2*i];
-        int odd_tmp = a[2*i+1];
-        odd[odd_tmp].num = odd[odd_tmp].num + 1;
-        even[even_tmp].num = even[even_tmp].num + 1;
+    for(int i=0; i<100000; i++){
+        P temp1(i, ef[i]);
+        ep.push_back(temp1);
+        P temp2(i, of[i]);
+        op.push_back(temp2);
     }
-    sort(odd, odd+100000,cmp);
-    sort(even, even+100000, cmp);
 
-    int odd_max;
-    int even_max;
+    sort(ep.begin(), ep.end(), pairCompare);
+    sort(op.begin(), op.end(), pairCompare);
 
-    if(odd[0].idx == even[0].idx){
-        if (odd[1].num >= even[1].num){
-            odd_max = odd[1].idx;
-            even_max = even[0].idx;
-        }else{
-            odd_max = odd[0].idx;
-            even_max = even[1].idx;
-        }
+    int ans=0;
+    if(ep[0].first != op[0].first){
+        int emax = ep[0].second;
+        int omax = op[0].second;
+        ans = n - (emax+omax);
     }else{
-        odd_max = odd[0].idx;
-        even_max = even[0].idx;
+        int emax1 = ep[0].second;
+        int emax2 = ep[1].second;
+        int omax1 = op[0].second;
+        int omax2 = op[1].second;
+        int case1 = n - (emax1 + omax2);
+        int case2 = n - (emax2 + omax1);
+        ans = min(case1, case2);
     }
 
-    int counter = 0;
-    int flag = 0;
-
-    while(true){
-        if(odd[flag].idx!=odd_max) counter = counter + odd[flag].num;
-        if(even[flag].idx!=even_max) counter = counter + even[flag].num;
-        if((odd[flag].num==0)&&(even[flag].num==0)) break;
-        flag++;
-    }
-
-    cout << counter;
+    cout << ans;
 
     return 0;
-
 }

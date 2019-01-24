@@ -1,36 +1,41 @@
-#include <iostream>
-#include <cstdio>
-#include <vector>
-#include <algorithm>
+#include<iostream>
+#include<vector>
+#include<algorithm>
 
 using namespace std;
 
+int binary_search(vector<P> &x, long X, int b, int e)
+{
+    int mid = (b + e) / 2;
+    if(x[mid].second == X) return mid;
+    else if(x[mid].second > X) return binary_search(x, X, b, mid);
+    else if(x[mid].second < X) return binary_search(x, X, mid, e);
+}
 
 int main()
 {
     int N;
-    vector<long long> X(N);
-    vector<long long> B(N);
-    scanf("%d", &N);
+    cin >> N;
+
+    vector<long> x(N);
+    vector<long> y(N);
 
     for(int i=0; i<N; i++){
-        long long tmp;
-        scanf("%lld", &tmp);
-        X[i] = tmp;
+        long temp;
+        cin >> temp;
+        x[i] = temp;
+        y[i] = temp;
     }
+
+    sort(x.begin(),x.end());
 
     for(int i=0; i<N; i++){
-        vector<long long> Y(N);
-        copy(X.begin(), X.end(), back_inserter(Y));
-        Y.erase(Y.begin()+i);
-        sort(Y.begin(), Y.end());
-        B[i] = Y[(N-2)/2];
-    }
+        long med;
+        long X = y[i];
+        if(X <= x[N/2 - 1]) med = x[N/2];
+        else med = x[N/2 - 1];
 
-    for(int i=0; i<N-1; i++){
-        cout << B[i] << "\n";
+        if(i < N-1) cout << "med" << "\n";
+        else cout << med;
     }
-    cout << B[N-1];
-
-    return 0;
 }
