@@ -1,4 +1,12 @@
-#include<bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+#include<list>
+#include<set>
+#include<map>
+#include<utility>
+
 
 #define rep(i,x) for(int i=0;i<(int)(x);i++)
 #define reps(i,x) for(int i=1;i<=(int)(x);i++)

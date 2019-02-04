@@ -16,25 +16,39 @@ int gcd(int a,int b){return b?gcd(b,a%b):a;}
 
 using namespace std;
 
+ll rec(ll M,int N, ll &dp, ll &dev, ll cnt)
+{
+    if(M==1) return 1;
+    if(N==1) return 1;
+    if(dp[M][N]!=-1) return dp[M][N];
+
+    rep(i, dev.size()){
+        ll d = dev[i];
+        dp[M/d][N-1] = rec(M/d, N-1, dp, dev);
+        cnt += dp[M/d][N-1];
+    }
+    return cnt;
+}
+
+
 int main()
 {
     int N;
-    long M;
+    ll M;
     cin >> N >> M;
-    vector<long> v;
+    vector<vector<ll>> dp;
+    dp.resize(M);
+    rep(i, M) dp[i].resize(N);
 
-    for(int i=1; i*i<=M; i++){
-        if(n % i ==0) {
-            v.push_back(i);
-            if(i!=1 && i*i!=M) v.push_back(M/i);
+    ll cnt=0;
+    vector<ll> dev;
+    for(int i=0; i*i<=M; i++){
+        if(M!=i){
+            dev.push_back(i);
+            if(i*i!=M) dev.push_back(M/i);
         }
     }
-    sort(all(v));
-    auto itr = lower_bound(all(v), N);
-    int index = itr - v.begin();
-    long dev = v[index];
-    long ans = M/dev;
-
+    ll ans = rec(M, N, dp, dev, 0);
     cout << ans;
 }
 
