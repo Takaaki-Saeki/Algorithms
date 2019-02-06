@@ -1,4 +1,6 @@
-#include<bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<string>
 
 #define rep(i,x) for(int i=0;i<(int)(x);i++)
 #define reps(i,x) for(int i=1;i<=(int)(x);i++)
@@ -16,15 +18,24 @@ int gcd(int a,int b){return b?gcd(b,a%b):a;}
 
 using namespace std;
 
-ll rec(ll M,int N, ll &dp, ll &dev, ll cnt)
+
+long rec(long M,long N, vector<vector<long>> &dp)
 {
     if(M==1) return 1;
     if(N==1) return 1;
     if(dp[M][N]!=-1) return dp[M][N];
 
+    vector<long> dev;
+    for(long i=1; i*i<=M; i++){
+    	if(M % i == 0){
+        	dev.push_back(i);
+            if(i*i!=M) dev.push_back(M/i);
+        }
+    }
+    long cnt = 0;
     rep(i, dev.size()){
-        ll d = dev[i];
-        dp[M/d][N-1] = rec(M/d, N-1, dp, dev);
+    	long d = dev[i];
+        dp[M/d][N-1] = rec(M/d, N-1, dp);
         cnt += dp[M/d][N-1];
     }
     return cnt;
@@ -33,24 +44,18 @@ ll rec(ll M,int N, ll &dp, ll &dev, ll cnt)
 
 int main()
 {
-    int N;
-    ll M;
+    long N;
+    long M;
     cin >> N >> M;
-    vector<vector<ll>> dp;
-    dp.resize(M);
-    rep(i, M) dp[i].resize(N);
 
-    ll cnt=0;
-    vector<ll> dev;
-    for(int i=0; i*i<=M; i++){
-        if(M!=i){
-            dev.push_back(i);
-            if(i*i!=M) dev.push_back(M/i);
+    vector<vector<long>> dp;
+    dp.resize(M+1);
+    rep(i, M+1) dp[i].resize(N+1);
+    rep(i, M+1){
+    	rep(j, N+1){
+        	dp[i][j] = -1;
         }
     }
-    ll ans = rec(M, N, dp, dev, 0);
+    long ans = rec(M, N, dp);
     cout << ans;
 }
-
-
-
