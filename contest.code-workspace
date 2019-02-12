@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "atc_contest"
+		},
+		{
+			"path": "atcoder"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"iostream": "cpp"
+		}
+	}
+}

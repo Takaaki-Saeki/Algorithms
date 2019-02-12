@@ -26,11 +26,21 @@ using namespace std;
 
 int main()
 {
+    ll K, A, B;
+    cin >> K >> A >> B;
 
-
-
-
-
+    ll ans;
+    if((B-A)<=2){
+        ans = 1+K;
+    }else{
+        if(K <= A){
+            ans = 1+K;
+        }else{
+            if((K-A+1)%2==0) ans = A + (K-A+1)/2*(B-A);
+            else ans = A+1+(K-A+1)/2*(B-A);
+        }
+    }
+    cout << ans;
 }
 
 
