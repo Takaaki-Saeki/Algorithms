@@ -5,6 +5,12 @@
 		},
 		{
 			"path": "atcoder"
+		},
+		{
+			"path": "AOJ"
+		},
+		{
+			"path": "snipet"
 		}
 	],
 	"settings": {

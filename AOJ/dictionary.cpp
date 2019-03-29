@@ -6,8 +6,7 @@
 #include<set>
 #include<map>
 #include<utility>
-#include<queue>
-#include<cmath>
+
 
 #define rep(i,x) for(int i=0;i<(int)(x);i++)
 #define reps(i,x) for(int i=1;i<=(int)(x);i++)
@@ -16,36 +15,43 @@
 
 #define all(x) (x).begin(),(x).end()
 #define SZ(x) ((int)(x).size())
-#define INF 2e10
+#define INF 2e9
 
 template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1; } return 0; }
 template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1; } return 0; }
 typedef long long ll;
-typedef std::pair<ll, ll> P;
 int gcd(int a,int b){return b?gcd(b,a%b):a;}
 
 using namespace std;
 
+vector<string> s;
+
+void insert(string str)
+{
+    s.push_back(str);
+}
+
+bool find(string str)
+{
+    rep(i, s.size()){
+        if(str == s[i]) return 1;
+    }
+    return 0;
+}
 
 int main()
 {
-    int N, Q;
-    cin >> N >> Q;
-    vector<int> v(N);
-    string s;
-    cin >> s;
-    int n=0;
-    rep(i, N){
-        if((i != 0) && (s[i-1] == 'A') && (s[i] == 'C')){
-            n++;
+    ll n;
+    cin >> n;
+    s.resize(n);
+    rep(i, n){
+        string str1, str2;
+        cin >> str1 >> str2;
+        if(str1=="insert") insert(str2);
+        if(str1=="find"){
+            if(find(str2)) cout << "yes" << endl;
+            else cout << "no" << endl;
         }
-        v[i] = n;
-    }
-
-    rep(i, Q){
-        int l, r;
-        cin >> r >> l;
-        cout << v[l-1] - v[r-1] << endl;
     }
 }
 

@@ -25,29 +25,37 @@ typedef std::pair<ll, ll> P;
 int gcd(int a,int b){return b?gcd(b,a%b):a;}
 
 using namespace std;
+void chmin(ll &a, ll b) { if (a > b) a = b; }
 
+int n;
+vector<int> l;
+int A, B, C;
+
+ll select(int k, int a, int b, int c)
+{
+
+    if(k == n){
+        if (!(a-A) || !(b-B) || !(c-C)) return INF;
+        return abs(a) + abs(b) + abs(c);
+    }
+    ll res = select(k+1, a, b, c);
+    chmin(res, select(k+1, a-l[k], b, c)+((A-a)?10 : 0));
+    chmin(res, select(k+1, a, b-l[k], c)+((B-b)?10 : 0));
+    chmin(res, select(k+1, a, b, c-l[k])+((C-c)?10 : 0));
+    return res;
+}
 
 int main()
 {
-    int N, Q;
-    cin >> N >> Q;
-    vector<int> v(N);
-    string s;
-    cin >> s;
-    int n=0;
-    rep(i, N){
-        if((i != 0) && (s[i-1] == 'A') && (s[i] == 'C')){
-            n++;
-        }
-        v[i] = n;
+    int a, b, c;
+    cin >> n >> a >> b >> c;
+    A = a;
+    B = b;
+    C = c;
+    l.resize(n);
+    rep(i, n){
+        cin >> l[i];
     }
-
-    rep(i, Q){
-        int l, r;
-        cin >> r >> l;
-        cout << v[l-1] - v[r-1] << endl;
-    }
+    ll count = select(0, a, b, c);
+    cout << count;
 }
-
-
-

@@ -6,8 +6,7 @@
 #include<set>
 #include<map>
 #include<utility>
-#include<queue>
-#include<cmath>
+
 
 #define rep(i,x) for(int i=0;i<(int)(x);i++)
 #define reps(i,x) for(int i=1;i<=(int)(x);i++)
@@ -16,37 +15,50 @@
 
 #define all(x) (x).begin(),(x).end()
 #define SZ(x) ((int)(x).size())
-#define INF 2e10
+#define INF 2e9
 
 template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1; } return 0; }
 template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1; } return 0; }
 typedef long long ll;
-typedef std::pair<ll, ll> P;
 int gcd(int a,int b){return b?gcd(b,a%b):a;}
 
 using namespace std;
 
+const int n = 100;
 
 int main()
 {
-    int N, Q;
-    cin >> N >> Q;
-    vector<int> v(N);
-    string s;
-    cin >> s;
-    int n=0;
-    rep(i, N){
-        if((i != 0) && (s[i-1] == 'A') && (s[i] == 'C')){
-            n++;
+    int dp[n+1][n+1];
+    int p[n+1];
+
+    int N;
+    cin >> N;
+    for(int i=0; i<N-1; i++){
+        ll tmp;
+        cin >> p[i];
+        cin >> tmp;
+    }
+    cin >> p[N-1];
+    cin >> p[N];
+
+    rep(i, n+1){
+        rep(j, n+1){
+            dp[i][j] = INF;
         }
-        v[i] = n;
+    }
+    reps(i, n){
+        dp[i][i] = 0;
     }
 
-    rep(i, Q){
-        int l, r;
-        cin >> r >> l;
-        cout << v[l-1] - v[r-1] << endl;
+    for(int l=1; l<N; l++){
+        for(int i=1; i+l<=N; i++){
+            int m = INF;
+            for(int j=i; j<i+l; j++){
+                m = min(m, dp[i][j] + dp[j+1][i+l] + p[i-1]*p[j]*p[i+l]);
+            }
+        } 
     }
+    cout << dp[1][N] << endl;
 }
 
 
