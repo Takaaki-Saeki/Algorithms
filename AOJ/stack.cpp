@@ -55,6 +55,3 @@ int main()
     ll ans = s.top();
     cout << ans << endl;
 }
-
-
-
