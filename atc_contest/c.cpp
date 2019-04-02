@@ -16,6 +16,7 @@
 #define all(x) (x).begin(),(x).end()
 #define SZ(x) ((int)(x).size())
 #define INF 2e9
+#define MOD 1000000007
 
 template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1; } return 0; }
 template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1; } return 0; }
@@ -26,80 +27,53 @@ int gcd(int a,int b){return b?gcd(b,a%b):a;}
 
 using namespace std;
 
-ll N, M;
-vector<ll> A, B;
-vector<ll> C;
-
-class UnionFind {
-public:
-    vector<ll> par;
-    vector<ll> size;
-
-    UnionFind(ll N){
-        par.resize(N);
-        size.resize(N);
-        for(int i=0; i<N; i++){
-            par[i] = i;
-            size[i] = 1;
-        }
-    }
-
-    ll root(ll x) {
-        if (par[x] == x) return x;
-        return root(par[x]);
-    }
-
-    void unite(ll x, ll y){
-        ll rx = root(x);
-        ll ry = root(y);
-        if(size[rx] <= size[ry]){
-            par[rx] = ry;
-            size[ry] += size[rx]; 
-        }else{
-            par[ry] = rx;
-            size[rx] += size[ry]; 
-        }
-    }
-
-    bool same(ll x, ll y){
-        ll rx = root(x);
-        ll ry = root(y);
-        if(rx == ry) return true;
-        else return false;
-    }
-
-    ll get_size(ll x){
-        ll rx = root(x);
-        return size[rx];
-    }
-};
-
 int main()
 {
-    cin >> N >> M;
-    A.resize(M);
-    B.resize(M);
-    C.resize(M+1);
-    rep(i, M){
-        cin >> A[i] >> B[i];
+    ll n, q;
+    string s;
+    cin >> n >> q >> s;
+    string al = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    ll v[26];
+    ll mi[26];
+    ll ma[26];
+    ll ex[26];
+    rep(i, 26){
+        v[i] = 0;
+        ex[i] = 0;
+        mi[i] = INF;
+        ma[i] = -INF;
     }
 
-    UnionFind un(N);
-    ll cnt = N*(N-1)/2;
-    C[M] = cnt;
-
-    for(int i=M-1; i>=0; i--){
-        ll tmp1 = A[i]-1;
-        ll tmp2 = B[i]-1;
-        if(un.same(tmp1, tmp2)){
-            C[i] = cnt;
-        }else{
-            cnt -= un.get_size(tmp1) * un.get_size(tmp2);
-            C[i] = cnt;
-            un.unite(tmp1, tmp2);
+    rep(i, q){
+        char t, d;
+        cin >> t >> d;
+        rep(j, al.size()){
+            if(al[j]==t){
+                cout << d << endl;
+                if(d == 'L') v[j]--;
+                if(d == 'R') v[j]++;
+                mi[j] = min(v[j], mi[j]);
+                ma[j] = max(v[j], ma[j]);
+                ex[j] = 1;
+            }
         }
     }
 
-    reps(i, M) cout << C[i] << endl;
-
+    ll cnt = 0;
+    rep(i, n){
+        char s0 = s[i];
+        ll p;
+        rep(j, al.size()){
+            if(al[j] == s0) p = j;
+        }
+        if(ex[p] == 1){
+            cout << mi[p] << ma[p] << endl;
+            cout << i << endl;
+            ll tmp0 = i + mi[p];
+            ll tmp1 = i + ma[p];
+            cout << tmp0 << tmp1 <<
+            if(tmp0 >= 0 && tmp1 <= n-1) cnt++;
+        }
+    }
+    cout << cnt;
 }

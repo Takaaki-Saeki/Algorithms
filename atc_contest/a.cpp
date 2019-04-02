@@ -26,52 +26,51 @@ int gcd(int a,int b){return b?gcd(b,a%b):a;}
  
 using namespace std;
 
-ll N;
-ll dp[105][5][5][5];
-ll mod;
- 
+int count(int N, int p, int f)
+{
+    if(N<=0) return 1;
+
+    if(p == N-1){
+        return 1;
+    }
+
+    if(f == 0){
+        return count(N, p+1, 0) + count(N, p+1, 1);
+    }else{
+        return count(N, p+1, 0);
+    }
+}
+
 int main()
 {
-    mod = pow(10, 9) + 7;
-    cin >> N;
+    ll h, w, k;
+    cin >> h >> w >> k;
 
+    ll dp[105][10];
     rep(i, 105){
-        rep(j, 4){
-            rep(k, 4){
-                rep(l, 4){
-                    dp[i][j][k][l] = 0;
+        rep(j, 10){
+            dp[i][j] = 0;
+        }
+    }
+    // 横軸の数字が0originであることに注意
+    dp[0][0] = 1;
+    if(w == 1){
+        if(k == 1) cout << 1;
+        else cout << 0;
+    }else{
+        rep(i, h){
+            rep(j, w){
+                if(j == 0){
+                    dp[i+1][j] = dp[i][j]*count(w-2, 0, 0) + dp[i][j+1]*count(w-3, 0, 0);
+                }else if(j == w-1){
+                    dp[i+1][j] = dp[i][j]*count(w-2, 0, 0) + dp[i][j-1]*count(w-3, 0, 0);
+                }else{
+                    dp[i+1][j] = dp[i][j-1]*count(j-2, 0, 0)*count(w-j-2, 0, 0) + dp[i][j+1]*count(j-1, 0, 0)*count(w-j-3, 0, 0);
+                    dp[i+1][j] += dp[i][j]*count(j-1, 0, 0)*count(w-j-2, 0, 0);
                 }
             }
         }
+        cout << dp[h][k-1];
     }
 
-    dp[0][3][3][3] = 1;
-
-    reps(i, N){
-        rep(j, 4){
-            rep(k, 4){
-                rep(l, 4){
-                    dp[i][j][k][l] = (dp[i-1][k][l][0] + dp[i-1][k][l][1] + dp[i-1][k][l][2] + dp[i-1][k][l][3])%mod;
-                    dp[i][1][2][l] = (dp[i-1][2][l][1] + dp[i-1][2][l][2] + dp[i-1][2][l][3])%mod;
-                }
-                dp[i][1][k][2] = (dp[i-1][k][2][1] + dp[i-1][k][2][2] + dp[i-1][k][2][3])%mod;
-            }
-        }
-
-        dp[i][1][2][0] = 0;
-        dp[i][1][0][2] = 0;
-        dp[i][2][1][0] = 0;
-    }
-
-    ll ans;
-    rep(i, 4){
-        rep(j, 4){
-            rep(k, 4){
-                ans += dp[N][i][j][k];
-            }
-        }
-    }
-
-    cout << ans%mod << endl;
- 
 }

@@ -16,7 +16,7 @@
 
 #define all(x) (x).begin(),(x).end()
 #define SZ(x) ((int)(x).size())
-#define INF 2e10
+#define INF 2e12
 
 template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1; } return 0; }
 template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1; } return 0; }
@@ -26,28 +26,44 @@ int gcd(int a,int b){return b?gcd(b,a%b):a;}
 
 using namespace std;
 
-
 int main()
 {
-    int N, Q;
-    cin >> N >> Q;
-    vector<int> v(N);
-    string s;
-    cin >> s;
-    int n=0;
-    rep(i, N){
-        if((i != 0) && (s[i-1] == 'A') && (s[i] == 'C')){
-            n++;
+    ll n, k;
+    cin >> n >> k;
+    vector<ll> a(n);
+    rep(i, k) cin >> a[i];
+    ll d;
+    rep(i, 40){
+        if(k >= pow(2, i) && k < pow(2, i+1)){
+            d = i+1;
         }
-        v[i] = n;
+    }
+    vector< vector<ll> > b(n);
+    rep(i, n) b[i].resize(d);
+
+    rep(i, n){
+        ll tmp = a[i];
+        for(int j=d-1; j>=0; i--){
+            if(tmp >= pow(2, d)){
+                b[i][j] = 1;
+            }else{
+                b[i][j] = 0;
+            }
+        }
     }
 
-    rep(i, Q){
-        int l, r;
-        cin >> r >> l;
-        cout << v[l-1] - v[r-1] << endl;
+    vector<ll> k2(d);
+    ll tmp = k;
+    for(int i=d-1; i>=0; i--){
+        if(tmp >= pow(2, i)){
+            k2[i] = 1;
+        }else{
+            k2[i] = 0;
+        }
     }
+    
 }
+
 
 
 
