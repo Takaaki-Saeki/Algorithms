@@ -30,39 +30,50 @@ int main()
 {
     ll n, k;
     cin >> n >> k;
-    vector<ll> a(n);
-    rep(i, k) cin >> a[i];
-    ll d;
-    rep(i, 40){
-        if(k >= pow(2, i) && k < pow(2, i+1)){
-            d = i+1;
-        }
-    }
-    vector< vector<ll> > b(n);
-    rep(i, n) b[i].resize(d);
-
+    string s;
+    cin >> s;
+    s = s+'z';
+    vector<ll> v;
+    ll p = 1;
     rep(i, n){
-        ll tmp = a[i];
-        for(int j=d-1; j>=0; i--){
-            if(tmp >= pow(2, d)){
-                b[i][j] = 1;
-            }else{
-                b[i][j] = 0;
-            }
+        if(s[i+1]==s[i]) p++;
+        else {
+            v.push_back(p);
+            p = 1;
         }
     }
 
-    vector<ll> k2(d);
-    ll tmp = k;
-    for(int i=d-1; i>=0; i--){
-        if(tmp >= pow(2, i)){
-            k2[i] = 1;
-        }else{
-            k2[i] = 0;
+    if(v.size()>1){
+        reps(i, v.size()-1){
+            v[i] += v[i-1];
         }
     }
-    
+
+    ll ans;
+    if(s[0]=='0'){
+        ll h = v.size();
+        ll m = min(2*k-1, h-1);
+        ans = v[m];
+        ll g = 2;
+        while(m+g<h){
+            if(m+g==h) ans = max(ans, v[m+g-1]-v[g-2]);
+            ans = max(ans, v[m+g] - v[g-2]);
+            g += 2;
+        }
+    }else{
+        ll h = v.size();
+        ll m = min(2*k, h-1);
+        ans = v[m];
+        ll g = 2;
+        while(m+g<h){
+            if(m+g==h) ans = max(ans, v[m+g-1] - v[g-1]);
+            ans = max(ans, v[m+g] - v[g-1]);
+            g += 2;
+        }
+    }
+    cout << ans;
 }
+
 
 
 
