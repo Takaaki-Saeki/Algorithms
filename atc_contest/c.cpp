@@ -30,19 +30,4 @@ typedef std::pair<ll, ll> P;
 using namespace std;
 
 int main(){
-    ll n, m;
-    cin >> n >> m;
-    ll ans;
-    if(n == 1){
-        if(m==1) ans = 1;
-        else if(m>2) ans = m-2;
-        else ans = 0;
-    }else if(m == 1){
-        if(n==1) ans = 1;
-        else if(n>2) ans = n-2;
-        else ans = 0;
-    }else{
-        ans = (n-2)*(m-2);
-    }
-    cout << ans;
 }

@@ -26,51 +26,83 @@ int gcd(int a,int b){return b?gcd(b,a%b):a;}
  
 using namespace std;
 
-int count(int N, int p, int f)
-{
-    if(N<=0) return 1;
-
-    if(p == N-1){
-        return 1;
-    }
-
-    if(f == 0){
-        return count(N, p+1, 0) + count(N, p+1, 1);
-    }else{
-        return count(N, p+1, 0);
-    }
-}
-
 int main()
 {
-    ll h, w, k;
-    cin >> h >> w >> k;
+    ll k;
+    ll x, y;
+    vector<P> v;
+    cin >> k >> x >> y;
 
-    ll dp[105][10];
-    rep(i, 105){
-        rep(j, 10){
-            dp[i][j] = 0;
-        }
+    if(k%2 != (x+y)%2){
+        cout << -1;
+        return 0;
     }
-    // 横軸の数字が0originであることに注意
-    dp[0][0] = 1;
-    if(w == 1){
-        if(k == 1) cout << 1;
-        else cout << 0;
-    }else{
-        rep(i, h){
-            rep(j, w){
-                if(j == 0){
-                    dp[i+1][j] = dp[i][j]*count(w-2, 0, 0) + dp[i][j+1]*count(w-3, 0, 0);
-                }else if(j == w-1){
-                    dp[i+1][j] = dp[i][j]*count(w-2, 0, 0) + dp[i][j-1]*count(w-3, 0, 0);
-                }else{
-                    dp[i+1][j] = dp[i][j-1]*count(j-2, 0, 0)*count(w-j-2, 0, 0) + dp[i][j+1]*count(j-1, 0, 0)*count(w-j-3, 0, 0);
-                    dp[i+1][j] += dp[i][j]*count(j-1, 0, 0)*count(w-j-2, 0, 0);
-                }
+
+    ll p = x + y;
+    ll q = x - y;
+
+    ll dx = 0;
+    ll dy = 0;
+
+    ll cnt = 0;
+
+    while(abs(p) > 2*k || abs(q) > 2*k){
+        ll gx = 0;
+        ll gy = 0;
+        if(abs(p) > 2*k){
+            if(p > 0){
+                p -= k;
+                gx = k;
+            }else{
+                p += k;
+                gx = -k;
             }
         }
-        cout << dp[h][k-1];
+        if(abs(q) > 2*k){
+            if(q > 0){
+                q -= k;
+                gy = k;
+            }else{
+                q += k;
+                gy = -k;
+            }
+            ll rx = (gx + gy)/2;
+            ll ry = (gx - gy)/2;
+            dx += rx;
+            dy += ry;
+            P pp;
+            pp.first = dx;
+            pp.second = dy;
+            v.push_back(pp);
+        }
+        cnt++;
     }
+    if(p%2 == 0){
+        ll gx = 0;
+        ll gy = 0;
+        if(p < dx+dy){
+            gx = -k;
+        }else{
+            gx = k;
+        }
 
+        if(q < dx-dy){
+            gy = -k;
+        }else{
+            gy = k;
+        }
+        ll rx = (gx + gy)/2;
+        ll ry = (gx - gy)/2;
+        dx += rx;
+        dy += ry;
+        P pp;
+        pp.first = dx;
+        pp.second = dy;
+        v.push_back(pp);
+        P pp1;
+        pp1.first = x;
+        pp1.second = y;
+    }else{
+        
+    }
 }

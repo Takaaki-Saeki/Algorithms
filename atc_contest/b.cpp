@@ -28,53 +28,6 @@ using namespace std;
 
 int main()
 {
-    ll n, k;
-    cin >> n >> k;
-    string s;
-    cin >> s;
-    s = s+'z';
-    vector<ll> v;
-    ll p = 1;
-    rep(i, n){
-        if(s[i+1]==s[i]) p++;
-        else {
-            v.push_back(p);
-            p = 1;
-        }
-    }
-
-    if(v.size()>1){
-        reps(i, v.size()-1){
-            v[i] += v[i-1];
-        }
-    }
-
-    ll ans;
-    if(s[0]=='0'){
-        ll h = v.size();
-        ll m = min(2*k-1, h-1);
-        ans = v[m];
-        ll g = 2;
-        while(m+g<h){
-            if(m+g==h) ans = max(ans, v[m+g-1]-v[g-2]);
-            ans = max(ans, v[m+g] - v[g-2]);
-            g += 2;
-        }
-    }else{
-        ll h = v.size();
-        ll m = min(2*k, h-1);
-        ans = v[m];
-        ll g = 2;
-        while(m+g<h){
-            if(m+g==h) ans = max(ans, v[m+g-1] - v[g-1]);
-            ans = max(ans, v[m+g] - v[g-1]);
-            g += 2;
-        }
-    }
-    cout << ans;
+       
 }
-
-
-
-
 
