@@ -28,6 +28,79 @@ using namespace std;
 
 int main()
 {
-       
+    string s;
+    cin >> s;
+    vector<P> vp;
+
+    s += 'e';
+
+    ll cr = 0;
+    ll cl = 0;
+    rep(i, s.size()-1){
+        P tmp;
+        if(s[i] == 'R'){
+            cr++;
+        }
+        if(s[i] == 'L'){
+            cl++;
+            if(s[i+1] != 'L'){
+                tmp.first = cr;
+                tmp.second = cl;
+                vp.push_back(tmp);
+                cr = 0;
+                cl = 0;
+            }
+        }
+    }
+
+    string ans = "";
+    rep(i, vp.size()){
+        if((vp[i].first+vp[i].second)%2 == 0){
+            ll aa = (vp[i].first+vp[i].second)/2;
+            rep(j, vp[i].first-1){
+                ans += "0 ";
+            }
+            ans += to_string(aa);
+            ans += ' ';
+            ans += to_string(aa);
+            ans += ' ';
+            rep(j, vp[i].second-1){
+                ans += "0 ";
+            }
+        }else{
+            ll mm = min(vp[i].first, vp[i].second);
+            if(mm % 2 == 0){
+                rep(j, vp[i].first-1){
+                    ans += "0 ";
+                }
+                ans += to_string(vp[i].first);
+                ans += ' ';
+                ans += to_string(vp[i].second);
+                ans += ' ';
+                rep(j, vp[i].second-1){
+                    ans += "0 ";
+                }
+            }else{
+                rep(j, vp[i].first-1){
+                    ans += "0 ";
+                }
+                ans += to_string(vp[i].second);
+                ans += ' ';
+                ans += to_string(vp[i].first);
+                ans += ' ';
+                rep(j, vp[i].second-1){
+                    ans += "0 ";
+                }
+            }
+        }
+    }
+    string tt = "";
+    rep(i, ans.size()-1){
+        tt += ans[i];
+    }
+
+    cout << tt;
+
+
 }
 

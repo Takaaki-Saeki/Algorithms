@@ -29,5 +29,23 @@ typedef std::pair<ll, ll> P;
  
 using namespace std;
 
-int main(){
+int main()
+{
+    ll n;
+    cin >> n;
+    ll cnt = 0;
+
+    reps(p, n){
+        ll k;
+        rep(i, 6){
+            if(p >= pow(10, i) && p < pow(10, i+1)){
+                k = i+1;
+                break;
+            }
+        }
+        if(k % 2 == 1) cnt++;
+    }
+
+    cout << cnt;
+
 }
