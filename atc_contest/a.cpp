@@ -25,3 +25,15 @@ typedef std::pair<ll, ll> P;
 int gcd(int a,int b){return b?gcd(b,a%b):a;}
  
 using namespace std;
+
+int main()
+{
+    ll n, m;
+    cin >> n >> m;
+    vector<ll> a(n);
+    rep(i, n){
+        cin >> a[i];
+    }
+
+    
+}
