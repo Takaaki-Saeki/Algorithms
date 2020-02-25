@@ -27,9 +27,17 @@ using namespace std;
 
 int main()
 {
-    ll a, b, c;
-    cin >> a >> b >> c;
-    ll p = c - (a-b);
-    if(p >= 0) cout << p;
-    else cout << 0;
+    ll M;
+    cin >> M;
+    vector<ll> d(M);
+    vector<ll> c(M);
+    ll cnt = 0;
+
+    rep(i, M){
+        cin >> d[i] >> c[i];
+        cnt += d[i]*c[i];
+    }
+    
+
+
 }

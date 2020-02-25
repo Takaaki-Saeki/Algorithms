@@ -26,26 +26,39 @@ typedef std::pair<ll, ll> P;
 int gcd(ll a,ll b){return b?gcd(b,a%b):a;}
 
 typedef std::pair<ll, ll> P;
+
+bool pairCompare(const P& firstElof, const P& secondElof)
+{
+    return firstElof.second < secondElof.second;
+}
  
 using namespace std;
 
 int main()
 {
-    ll n;
-    cin >> n;
-    ll cnt = 0;
+    ll n, k;
+    cin >> n >> k;
+    vector<ll> v(n);
+    rep(i, n) cin >> v[i];
+    ll mm = -INF;
 
-    reps(p, n){
-        ll k;
-        rep(i, 6){
-            if(p >= pow(10, i) && p < pow(10, i+1)){
-                k = i+1;
-                break;
+    rep(m, k){
+        vector<ll> vp;
+        rep(i, k-m){
+            ll mtmp = 0;
+            ll left = i;
+            ll right = k-m-i;
+            rep(ii, left) vp.push_back(v[ii]);
+            rep(jj, right) vp.push_back(v[n-1-jj]);
+            sort(all(vp));
+            reverse(all(vp));
+            rep(ii, k-m) {
+                cout << vp[ii] << endl;
+                mtmp += vp[ii];
             }
+            mm = max(mm, mtmp);
         }
-        if(k % 2 == 1) cnt++;
     }
 
-    cout << cnt;
-
+    cout << mm;
 }

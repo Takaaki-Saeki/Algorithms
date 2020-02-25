@@ -28,12 +28,15 @@ using namespace std;
 
 int main()
 {
-    ll n, m;
-    cin >> n >> m;
-    vector<ll> a(n);
-    rep(i, n){
-        cin >> a[i];
+    ll n;
+    cin >> n;
+    ll p;
+
+    rep(i, 5){
+        if(n >= pow(10, i) && n < pow(10, i+1)) p = i+1;
     }
 
-    
+    reps(i, n){
+        
+    }
 }
